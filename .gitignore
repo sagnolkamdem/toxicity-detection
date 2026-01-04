@@ -1,0 +1,6 @@
+.idea
+.venv
+.Rhistory
+.DS_Store
+Data/
+models/
