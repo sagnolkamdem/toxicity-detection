@@ -38,8 +38,8 @@ The goal of this project is to build a production-ready toxicity detection servi
 │
 ├── models/                         # Model folder (some files was ignored by Git)
 │   ├── model_card.md               # Model documentation
-│   └── test.csv
-│                                   # Model documentation & nutrition label
+│   └── model.safetensors           # Fake model file
+│                                   
 ├── requirements.txt                # Global project dependencies
 └── README.md                       # Project documentation
 ```
