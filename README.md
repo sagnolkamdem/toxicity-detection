@@ -31,10 +31,10 @@ The goal of this project is to build a production-ready toxicity detection servi
 │   └── 06_fairness_bias.ipynb
 │
 ├── Data/                           # Dataset folder (Ignored by Git)
-│   ├── train.csv
-│   ├── 5_Latency_Comparison.ipynb
-│   ├── 5_Latency_Comparison.ipynb
-│   └── test.csv
+│   ├── README.md                   # Dataset documentation
+│   ├── test.csv
+│   ├── test_labels.csv
+│   └── train.csv
 │
 ├── models/                         # Model folder (some files was ignored by Git)
 │   ├── model_card.md               # Model documentation
