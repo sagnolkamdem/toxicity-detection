@@ -1,93 +1,165 @@
-# NLP - final project
+# 🛡️ RoBERTa Toxicity Detector
 
+A high-performance, low-latency AI system designed to detect toxic comments in online discussions. This project finetunes a **RoBERTa** model to achieve **~97% accuracy** while being **10x-50x faster** than Large Language Models (LLMs) like Mistral 7B.
 
+## 📌 Project Overview
+The goal of this project is to build a production-ready toxicity detection service. It compares two approaches:
+1.  **Zero-Shot LLM:** Using Mistral 7B (via API) to classify comments.
+2.  **Finetuned Encoder:** Training `roberta-base` specifically for this task.
+3.  **Developers:** Hind KHAYATI, Sagnol Boutal KAMDEM DJOKO, Pape Mamadou DIAGNE, Sarra HERELLI
 
-## Getting started
+**Key Findings:**
+* **RoBERTa** achieved comparable accuracy to the LLM.
+* **Latency:** RoBERTa runs in **~15-20ms** (GPU) / **~200ms** (CPU), compared to **2-5 seconds** for the LLM.
+* **Cost:** Significantly cheaper to deploy and maintain.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 📂 Project Structure
 
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+```text
+├── api/                            # Research & Training Notebooks
+│   ├── app.py
+│
+├── notebooks/                      # Research & Training Notebooks
+│   ├── 00_main_notebook.ipynb      # Recap of all steps
+│   ├── 01_eda.ipynb                # Exploratory & Data Analysis
+│   ├── 02_llm.ipynb                # LLM baseline
+│   ├── 03_RoBERTa_training.ipynb
+│   ├── 04_Latency_Comparison.ipynb
+│   └── 05_Explainability_SHAP.ipynb
+│   └── 06_fairness_bias.ipynb
+│
+├── Data/                           # Dataset folder (Ignored by Git)
+│   ├── train.csv
+│   ├── 5_Latency_Comparison.ipynb
+│   ├── 5_Latency_Comparison.ipynb
+│   └── test.csv
+│
+├── models/                         # Model folder (some files was ignored by Git)
+│   ├── model_card.md               # Model documentation
+│   └── test.csv
+│                                   # Model documentation & nutrition label
+├── requirements.txt                # Global project dependencies
+└── README.md                       # Project documentation
 ```
-cd existing_repo
-git remote add origin https://gitlab.esiea.fr/kamdemdjoko/nlp-final-project.git
-git branch -M main
-git push -uf origin main
+
+## ⚙️ Installation & Setup
+
+### 1. Set Up Python Environment
+```bash
+    git clone https://gitlab.esiea.fr/kamdemdjoko/nlp-final-project.git
+    cd nlp-final-project
 ```
 
-## Integrate with your tools
+### 2. Set Up Python Environment
+It is recommended to use a virtual environment.
 
-- [ ] [Set up project integrations](https://gitlab.esiea.fr/kamdemdjoko/nlp-final-project/-/settings/integrations)
+```bash
+    # Create virtual env
+    python -m venv venv
 
-## Collaborate with your team
+    # Activate (Windows)
+    .\venv\Scripts\activate
+    # Activate (Mac/Linux)
+    source venv/bin/activate
+    
+    # Install dependencies
+    pip install -r api/requirements.txt
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### 3. ⚠️ Download Model Weights
+- Due to file size limits, the trained model weights (pytorch_model.bin) are not hosted on GitHub.
+    - Option A (Pre-trained): Download the model folder from https://drive.google.com/drive/folders/1PEyyBh02zZG-b8hYsWFuPYVq_1szZA36?usp=sharing. 
+    - Option B (Train Yourself): Run the 4_RoBERTa_Training.ipynb notebook to generate the model.
 
-## Test and Deploy
+- Place the files: Unzip the content into the ./model/ folder.
 
-Use the built-in continuous integration in GitLab.
+- Your structure should look like: ./model/config.json, ./model/model.safetensors, etc.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### 🚀 Usage: Running the API
+We use FastAPI to serve the model. The model is loaded into memory once at startup to ensure low latency.
 
-***
+*Start the Server*
 
-# Editing this README
+Navigate to the api folder and run Uvicorn:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+```bash
+    cd api
+    uvicorn app:app --reload
+```
+- The API will start at http://127.0.0.1:8000.
 
-## Suggestions for a good README
+*Test the API*
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- Option 1: Swagger UI (Browser)
+    - Go to: http://127.0.0.1:8000/docs
+    - Click POST /predict -> Try it out. 
+    - Enter JSON: {"text": "You are amazing!"} or {"text": "You are an idiot."} or any other JSON
+    - Click Execute.
 
-## Name
-Choose a self-explaining name for your project.
+- Option 2: cURL (Terminal)
+```bash
+    curl -X 'POST' \
+  '[http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict)' \
+  -H 'Content-Type: application/json' \
+  -d '{"text": "This is a toxic comment test."}'
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### 🧠 Model & Training Details
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+*Dataset*
+- Source: Jigsaw Toxic Comment Classification Challenge.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- Size: ~160k training samples.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Labels: toxic, severe_toxic, obscene, threat, insult, identity_hate.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- Handling: We treat this as a Binary Classification task (Toxic vs. Non-Toxic).
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+*Training Configuration*
+- Base Model: roberta-base
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- Batch Size: 16
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- Learning Rate: 2e-5
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- Epochs: 2
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- Loss Function: CrossEntropyLoss
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- Hardware: Trained on NVIDIA T4 GPU (Google Colab).
 
-## License
-For open source projects, say how it is licensed.
+*Evaluation Metrics (Test Set)*
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+| Metric | Score (Test Set) |
+| :--- |:-----------------|
+| **ROC-AUC** | 0.97             |
+| **F1-Score** | 0.67             |
+| **Avg Latency** | ±20 ms           |
+
+### 📊 Latency Comparison
+One of the main goals was to prove RoBERTa's efficiency over LLMs.
+
+| Model           | Avg Latency GPU | Avg Latency CPU |
+|:----------------|:----------------|----------------|
+| **Miatral 7B**  | ±400 ms         | ±2-5s          |
+| **RoBERTa**     | ±20 ms          | ±200ms         |
+
+Note: API latency is measured using server-side headers (X-Process-Time) to exclude network overhead.
+
+### 🔍 Explainability
+We use SHAP (SHapley Additive exPlanations) to ensure the model isn't just guessing.
+
+- Positive Contributors (Red): Words like "idiot", "hate", "stupid" push the score toward Toxic.
+
+- Negative Contributors (Blue): Words like "thanks", "agree", "support" push the score toward Non-Toxic.
+
+(See ./notebooks/05_explainability_shap.ipynb for visualizations)
+
+### 📝 License
+This project uses the Jigsaw dataset (CC0) and the RoBERTa model (MIT). Project created by:
+- Hind KHAYATI 
+- Pape Mamadou DIAGNE
+- Sarra HERELLI
+- Sagnol Boutal KAMDEM DJOKO

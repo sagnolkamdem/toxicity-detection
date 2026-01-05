@@ -33,10 +33,10 @@
 
 ## Evaluation Results
 | Metric | Score (Test Set) |
-| :--- | :--- |
-| **ROC-AUC** | 0.99 |
-| **F1-Score** | 0.90 |
-| **Avg Latency** | 17.92 ms |
+| :--- |:-----------------|
+| **ROC-AUC** | 0.97             |
+| **F1-Score** | 0.68             |
+| **Avg Latency** | ±20 ms           |
 
 ## Limitations & Bias
 - **Imbalanced Data:** The training data is heavily skewed towards non-toxic comments (90%).
