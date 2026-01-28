@@ -158,8 +158,4 @@ We use SHAP (SHapley Additive exPlanations) to ensure the model isn't just guess
 (See ./notebooks/05_explainability_shap.ipynb for visualizations)
 
 ### 📝 License
-This project uses the Jigsaw dataset (CC0) and the RoBERTa model (MIT). Project created by:
-- Hind KHAYATI 
-- Pape Mamadou DIAGNE
-- Sarra HERELLI
-- Sagnol Boutal KAMDEM DJOKO
+This project uses the Jigsaw dataset (CC0) and the RoBERTa model (MIT).
