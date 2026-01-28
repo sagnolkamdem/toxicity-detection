@@ -4,7 +4,7 @@
 - **Model Name:** RoBERTa Toxicity Detector
 - **Model Type:** Text Classification (Binary)
 - **Base Model:** `roberta-base` (125M parameters)
-- **Developers:** Hind KHAYATI, Sagnol Boutal KAMDEM DJOKO, Pape Mamadou DIAGNE, Sarra HERELLI
+- **Developer:** Sagnol Boutal KAMDEM DJOKO
 - **License:** CC-SA-3.0
 - **Model Date:** 01/01/2026
 
