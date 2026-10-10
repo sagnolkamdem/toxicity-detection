@@ -1,6 +1,6 @@
 # 🛡️ RoBERTa Toxicity Detector
 
-A high-performance, low-latency AI system designed to detect toxic comments in online discussions. This project finetunes a **RoBERTa** model to achieve **~97% accuracy** while being **10x-50x faster** than Large Language Models (LLMs) like Mistral 7B.
+A high-performance, low-latency AI system designed to detect toxic comments in online discussions. This project finetunes a **RoBERTa** model to achieve **~97% ROC-AUC** while being **10x-50x faster** than Large Language Models (LLMs) like Mistral 7B.
 
 ## 📌 Project Overview
 The goal of this project is to build a production-ready toxicity detection service. It compares two approaches:
