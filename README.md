@@ -6,7 +6,7 @@ A high-performance, low-latency AI system designed to detect toxic comments in o
 The goal of this project is to build a production-ready toxicity detection service. It compares two approaches:
 1.  **Zero-Shot LLM:** Using Mistral 7B (via API) to classify comments.
 2.  **Finetuned Encoder:** Training `roberta-base` specifically for this task.
-3.  **Developers:** Hind KHAYATI, Sagnol Boutal KAMDEM DJOKO, Pape Mamadou DIAGNE, Sarra HERELLI
+3.  **Developer:** Sagnol Boutal KAMDEM DJOKO
 
 **Key Findings:**
 * **RoBERTa** achieved comparable accuracy to the LLM.
