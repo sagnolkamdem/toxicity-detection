@@ -4,13 +4,12 @@ A high-performance, low-latency AI system designed to detect toxic comments in o
 
 ## 📌 Project Overview
 The goal of this project is to build a production-ready toxicity detection service. It compares two approaches:
-1.  **Zero-Shot LLM:** Using Mistral 7B (via API) to classify comments.
+1.  **Zero-Shot LLM:** Using Mistral 7B run locally with Transformers on the same Colab T4 GPU to classify comments.
 2.  **Finetuned Encoder:** Training `roberta-base` specifically for this task.
 3.  **Developer:** Sagnol Boutal KAMDEM DJOKO
 
 **Key Findings:**
-* **RoBERTa** achieved comparable accuracy to the LLM.
-* **Latency:** RoBERTa runs in **~15-20ms** (GPU) / **~200ms** (CPU), compared to **2-5 seconds** for the LLM.
+* **Latency:** RoBERTa runs in **~15-20ms** (GPU) / **~400ms** for Mistral 7B on the same T4 GPU
 * **Cost:** Significantly cheaper to deploy and maintain.
 
 ---
