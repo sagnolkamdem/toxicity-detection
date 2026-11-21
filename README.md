@@ -1,6 +1,6 @@
 # 🛡️ RoBERTa Toxicity Detector
 
-A high-performance, low-latency AI system designed to detect toxic comments in online discussions. This project finetunes a **RoBERTa** model to achieve **~97% ROC-AUC** while being **10x-50x faster** than Large Language Models (LLMs) like Mistral 7B.
+A high-performance, low-latency AI system designed to detect toxic comments in online discussions. This project finetunes a **RoBERTa** model to achieve **~97% ROC-AUC** while being **20x faster** than Large Language Models (LLMs) like Mistral 7B on the same T4 GPU (~20x faster); on CPU, ~200 ms vs 2–5 s..
 
 ## 📌 Project Overview
 The goal of this project is to build a production-ready toxicity detection service. It compares two approaches:
@@ -139,6 +139,7 @@ Navigate to the api folder and run Uvicorn:
 
 ### 📊 Latency Comparison
 One of the main goals was to prove RoBERTa's efficiency over LLMs.
+Mistral 7B was loaded in 4-bit NF4 with bitsandbytes (double quantization, float16 compute) to fit the T4’s 16 GB of memory.
 
 | Model           | Avg Latency GPU | Avg Latency CPU |
 |:----------------|:----------------|----------------|
